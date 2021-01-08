@@ -1,0 +1,24 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: orange;
+}
+
+h1 {
+  margin: 0;
+  padding: 10px;
+}
+
+canvas {
+  display: block;
+  margin: auto;
+}
+
+#content {
+  display: flex;
+  background: grey;
+}

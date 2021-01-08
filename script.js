@@ -76,13 +76,27 @@ function main () {
   }
 }
 
+// function which pauses game
+function pause () {
+  let pauseBtn = document.getElementById("pauseBtn");
+
+  if (pauseBtn.innerHTML === "Pause") {
+    pauseBtn.innerHTML = "Play";
+    clearInterval(runGame);
+  } else {
+    pauseBtn.innerHTML = "Pause";
+    runGame = window.setInterval(main, 200);
+  }
+}
+
 // Creating the canvas element
 const gameArea = document.createElement("canvas");
+const mainDiv = document.getElementById("content")
 gameArea.width = 500;
 gameArea.height = 500;
 gameArea.style.background = "black";
 let context = gameArea.getContext("2d");
-document.body.insertBefore(gameArea, document.body.childNodes[0]);
+mainDiv.insertBefore(gameArea, mainDiv.childNodes[0]);
 document.addEventListener("keydown", direction)
 
 // Creating the initial snake
@@ -99,8 +113,8 @@ let movement = "right";
 // creating element to show score
 const score = document.createElement("h3");
 score.innerHTML = `Score: ${foodCounter}`;
-document.body.insertBefore(score, document.body.childNodes[1]);
+mainDiv.insertBefore(score, mainDiv.childNodes[1]);
 
 snakeGen();
 foodGen();
-const runGame = window.setInterval(main, 200);
+let runGame = window.setInterval(main, 200);
