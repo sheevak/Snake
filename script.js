@@ -89,6 +89,25 @@ function pause () {
   }
 }
 
+// Function to start/restart game
+function start () {
+
+  // cancel previous game
+  clearInterval(runGame);
+  context.clearRect(0,0, 500, 500)
+
+  // declare the inital snake coordinates, direction, movement and counter values
+  snake = [ {x:240, y:240}, {x:220, y:240}, {x:200, y:240}, {x:180, y:240}, {x:160, y:240}];
+  movex = 20;
+  movey = 0;
+  movement = "right";
+  foodCounter = 0;
+
+  snakeGen();
+  foodGen();
+  runGame = window.setInterval(main, 200);
+}
+
 // Creating the canvas element
 const gameArea = document.createElement("canvas");
 const mainDiv = document.getElementById("content")
@@ -99,22 +118,19 @@ let context = gameArea.getContext("2d");
 mainDiv.insertBefore(gameArea, mainDiv.childNodes[0]);
 document.addEventListener("keydown", direction)
 
-// Creating the initial snake
-let snake = [ {x:240, y:240}, {x:230, y:240}, {x:220, y:240}, {x:210, y:240}, {x:200, y:240}];
-
-// declaring variables
-let food;
-let head;
-let movex = 20;
-let movey = 0;
-let foodCounter = 0;
-let movement = "right";
-
 // creating element to show score
+let foodCounter = 0;
 const score = document.createElement("h3");
 score.innerHTML = `Score: ${foodCounter}`;
 mainDiv.insertBefore(score, mainDiv.childNodes[1]);
 
-snakeGen();
-foodGen();
-let runGame = window.setInterval(main, 200);
+// declaring variables
+let snake;
+let food;
+let head;
+let movex;
+let movey;
+let movement;
+let runGame;
+
+start()
