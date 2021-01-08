@@ -6,23 +6,23 @@ function component (width, height, color, x, y) {
 }
 
 // Generates the components which make up the snake
-function refresh () {
+function snakeGen () {
   context.clearRect(0,0, 500, 500)
   snake.forEach(function(i){
-    component( 10, 10, "red", i.x, i.y)
+    component( 20, 20, "red", i.x, i.y);
   });
 }
 
 // Generates a square food component at a random position
-function randomFood () {
+function foodGen () {
   // this do while condition ensures the food is not located within the body of the snake
   do {
-    let foodx = Math.floor(Math.random() * 50) * 10;
-    let foody = Math.floor(Math.random() * 50) * 10;
+    let foodx = Math.floor(Math.random() * 25) * 20;
+    let foody = Math.floor(Math.random() * 25) * 20;
     food = {x: foodx, y: foody};
   } while (snake.some(i => i.x == food.x && i.y == food.y));
 
-  component(10, 10, "yellow", food.x, food.y)
+  component(20, 20, "yellow", food.x, food.y);
 }
 
 // changes direction of motion depending on key pressed
@@ -32,46 +32,48 @@ function direction (event) {
   const upKey = 38;
   const downKey = 40;
 
-  const keyPressed = event.keyCode
+  const keyPressed = event.keyCode;
    if (keyPressed === leftKey) {
-     movex = -10;
+     movex = -20;
      movey = 0;
    } else if (keyPressed === rightKey) {
-     movex = 10;
+     movex = 20;
      movey = 0;
    } else if (keyPressed === upKey) {
      movex = 0;
-     movey = -10;
+     movey = -20;
    } else if (keyPressed === downKey) {
      movex = 0;
-     movey = 10;
+     movey = 20;
    }
 }
 
-// Main function of game
+// Main function which runs the game
 function main () {
   front = {x:snake[0].x + movex, y:snake[0].y + movey}
 
-  // This if statement controls what happens in each different scinarios
+  // This if statement controls what happens in each different scenario
   if (front.x == food.x && front.y == food.y){
     // if eat food
     foodCounter += 1;
     console.log(foodCounter)
     snake.unshift(front);
-    refresh();
-    randomFood();
-  } else if (front.x === -10 || front.x === 500 || front.y === -10 || front.y === 500) {
+    snakeGen();
+    foodGen();
+  } else if (front.x === -20 || front.x === 500 || front.y === -20 || front.y === 500) {
     // if hit walls
     console.log("Warning!!!");
+    clearInterval(runGame);
   } else if (snake.some(i => i.x == front.x && i.y == front.y)) {
     // if hit snake
     console.log("hey");
+    clearInterval(runGame);
   } else {
     // if doesn't hit anything
     snake.unshift(front);
     snake.pop();
-    refresh();
-    component(10, 10, "yellow", food.x, food.y);
+    snakeGen();
+    component(20, 20, "yellow", food.x, food.y);
   }
 }
 
@@ -85,15 +87,15 @@ document.body.insertBefore(gameArea, document.body.childNodes[0]);
 document.addEventListener("keydown", direction)
 
 // Creating the initial snake
-let snake = [ {x:240, y:250}, {x:230, y:250}, {x:220, y:250}, {x:210, y:250}, {x:200, y:250}];
+let snake = [ {x:240, y:240}, {x:230, y:240}, {x:220, y:240}, {x:210, y:240}, {x:200, y:240}];
 
-// declaring functions
+// declaring variables
 let food;
 let head;
-let movex = 10;
+let movex = 20;
 let movey = 0;
 let foodCounter = 0;
 
-refresh();
-randomFood();
-window.setInterval(main, 200);
+snakeGen();
+foodGen();
+const runGame = window.setInterval(main, 200);
