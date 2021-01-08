@@ -58,15 +58,14 @@ function main () {
 
   // This if statement controls what happens in each different scenario
   if (front.x == food.x && front.y == food.y){
-    // if eat food lengthen snake by 1
+    // if eat food lengthen snake by 1 and add 1 to foodCounter
     foodCounter += 1;
-    console.log(foodCounter)
+    score.innerHTML = `Score: ${foodCounter}`;
     snake.unshift(front);
     snakeGen();
     foodGen();
   } else if (front.x === -20 || front.x === 500 || front.y === -20 || front.y === 500 || snake.some(i => i.x == front.x && i.y == front.y)) {
     // if hit walls or snake end game
-    console.log("Warning!!!");
     clearInterval(runGame);
   } else {
     // if doesn't hit anything continue as normal
@@ -96,6 +95,11 @@ let movex = 20;
 let movey = 0;
 let foodCounter = 0;
 let movement = "right";
+
+// creating element to show score
+const score = document.createElement("h3");
+score.innerHTML = `Score: ${foodCounter}`;
+document.body.insertBefore(score, document.body.childNodes[1]);
 
 snakeGen();
 foodGen();
