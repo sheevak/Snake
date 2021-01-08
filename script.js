@@ -33,16 +33,20 @@ function direction (event) {
   const downKey = 40;
 
   const keyPressed = event.keyCode;
-   if (keyPressed === leftKey) {
+   if (keyPressed === leftKey && movement !== "right") {
+     movement = "left";
      movex = -20;
      movey = 0;
-   } else if (keyPressed === rightKey) {
+   } else if (keyPressed === rightKey && movement !== "left") {
+     movement = "right"
      movex = 20;
      movey = 0;
-   } else if (keyPressed === upKey) {
+   } else if (keyPressed === upKey && movement !== "down") {
+     movement = "up"
      movex = 0;
      movey = -20;
-   } else if (keyPressed === downKey) {
+   } else if (keyPressed === downKey && movement !== "up") {
+     movement = "down"
      movex = 0;
      movey = 20;
    }
@@ -54,22 +58,18 @@ function main () {
 
   // This if statement controls what happens in each different scenario
   if (front.x == food.x && front.y == food.y){
-    // if eat food
+    // if eat food lengthen snake by 1
     foodCounter += 1;
     console.log(foodCounter)
     snake.unshift(front);
     snakeGen();
     foodGen();
-  } else if (front.x === -20 || front.x === 500 || front.y === -20 || front.y === 500) {
-    // if hit walls
+  } else if (front.x === -20 || front.x === 500 || front.y === -20 || front.y === 500 || snake.some(i => i.x == front.x && i.y == front.y)) {
+    // if hit walls or snake end game
     console.log("Warning!!!");
     clearInterval(runGame);
-  } else if (snake.some(i => i.x == front.x && i.y == front.y)) {
-    // if hit snake
-    console.log("hey");
-    clearInterval(runGame);
   } else {
-    // if doesn't hit anything
+    // if doesn't hit anything continue as normal
     snake.unshift(front);
     snake.pop();
     snakeGen();
@@ -95,6 +95,7 @@ let head;
 let movex = 20;
 let movey = 0;
 let foodCounter = 0;
+let movement = "right";
 
 snakeGen();
 foodGen();
